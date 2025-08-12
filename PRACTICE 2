@@ -1,0 +1,52 @@
+CREATE TABLE Departments (
+    dept_id INT PRIMARY KEY,
+    dept_name VARCHAR(50) UNIQUE NOT NULL
+);
+
+CREATE TABLE Courses (
+    course_id INT PRIMARY KEY,
+    course_name VARCHAR(100) NOT NULL,
+    dept_id INT NOT NULL,
+    FOREIGN KEY (dept_id) REFERENCES Departments(dept_id)
+);
+DESCRIBE  Departments;
+DESCRIBE Courses;
+SELECT *FROM Departments;
+
+
+INSERT INTO Departments (dept_id,dept_name) VALUES(1,'Computer Sciencec');
+INSERT INTO Departments (dept_id,dept_name) VALUES(2,'Electrical');
+INSERT INTO Departments (dept_id,dept_name) VALUES(3,'Mechanical');
+INSERT INTO Departments (dept_id,dept_name) VALUES(4,'Civil');
+INSERT INTO Departments (dept_id,dept_name) VALUES(5,'Electronic');
+
+
+INSERT INTO Courses (course_id, course_name, dept_id) VALUES (101, 'DBMS', 1);
+INSERT INTO Courses (course_id, course_name, dept_id) VALUES (102, 'Operating Systems', 1);
+INSERT INTO Courses (course_id, course_name, dept_id) VALUES (103, 'Power Systems', 2);
+INSERT INTO Courses (course_id, course_name, dept_id) VALUES (104, 'Digital Circuits', 2);
+INSERT INTO Courses (course_id, course_name, dept_id) VALUES (105, 'Thermodynamics', 3);
+INSERT INTO Courses (course_id, course_name, dept_id) VALUES (106, 'Fluid Mechanics', 3);
+INSERT INTO Courses (course_id, course_name, dept_id) VALUES (107, 'Structural Engineering', 4);
+INSERT INTO Courses (course_id, course_name, dept_id) VALUES (108, 'Surveying', 4);
+INSERT INTO Courses (course_id, course_name, dept_id) VALUES (109, 'Embedded Systems', 5);
+INSERT INTO Courses (course_id, course_name, dept_id) VALUES (110, 'VLSI Design', 5);
+
+SELECT *FROM Courses;
+
+
+--Part C
+
+
+SELECT dept_name
+FROM Departments
+WHERE dept_id IN (
+    SELECT dept_id
+    FROM Courses
+    GROUP BY dept_id
+    HAVING COUNT(course_id) > 2
+);
+
+--Part D
+
+GRANT SELECT ON Courses TO 'viewer_user'@'localhost';
